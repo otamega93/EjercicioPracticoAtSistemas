@@ -5,6 +5,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
 import org.springframework.web.WebApplicationInitializer;
+import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
@@ -19,11 +20,14 @@ public class AppWebContextInitializer implements WebApplicationInitializer {
 		AnnotationConfigWebApplicationContext springContextRest = new AnnotationConfigWebApplicationContext();
 		springContextRest.scan("com.atsistemas");
 		
+		servletContext.addListener(new ContextLoaderListener(springContextRest));
+		
 		ServletRegistration servletRegistration = servletContext.addServlet("spring", new DispatcherServlet(springContext));
 		servletRegistration.addMapping("/");
 		
-		ServletRegistration servletRegistrationRest = servletContext.addServlet("springRest", new DispatcherServlet(springContextRest));
+		ServletRegistration.Dynamic servletRegistrationRest = servletContext.addServlet("springRest", new DispatcherServlet(springContextRest));
 		servletRegistrationRest.addMapping("/rest/*");
+		servletRegistrationRest.setLoadOnStartup(1);
 		
 	}
 	

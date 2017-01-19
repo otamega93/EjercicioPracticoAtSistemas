@@ -20,23 +20,28 @@ public class Account implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	private String name;
-	
+
+	private String username;
+
+	private String authorities;
+
 	private String password;
-	
+
 	private float height;
-	
-	@JsonFormat(pattern="yyyy-MM-dd")
+
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	@JsonDeserialize(using = LocalDateDeserializer.class)
 	@JsonSerialize(using = LocalDateSerializer.class)
 	private LocalDate birthDate;
-	
+
 	private String sex;
 
-	public Account(Long id, String name, String password, float height, LocalDate birthDate, String sex) {
+	public Account(Long id, String name, String password, String username, String authorities, float height,
+			LocalDate birthDate, String sex) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -44,6 +49,8 @@ public class Account implements Serializable {
 		this.height = height;
 		this.birthDate = birthDate;
 		this.sex = sex;
+		this.username = username;
+		this.authorities = authorities;
 	}
 
 	public Account() {
@@ -98,10 +105,26 @@ public class Account implements Serializable {
 		this.password = password;
 	}
 
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getAuthorities() {
+		return authorities;
+	}
+
+	public void setAuthorities(String authorities) {
+		this.authorities = authorities;
+	}
+
 	@Override
 	public String toString() {
-		return "Account [id=" + id + ", name=" + name + ", password=" + password + ", height=" + height + ", birthDate="
-				+ birthDate + ", sex=" + sex + "]";
+		return "Account [id=" + id + ", name=" + name + ", username=" + username + ", authorities=" + authorities
+				+ ", password=" + password + ", height=" + height + ", birthDate=" + birthDate + ", sex=" + sex + "]";
 	}
-	
+
 }

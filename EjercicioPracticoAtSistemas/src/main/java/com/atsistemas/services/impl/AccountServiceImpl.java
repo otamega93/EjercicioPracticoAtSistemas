@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,12 +24,16 @@ public class AccountServiceImpl implements AccountService {
 	@Autowired
 	private AccountRepository accountRepository;
 	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
 	List<Account> accounts = new ArrayList<>();
 	
 	@Override
 	@Transactional(readOnly=false)
 	public Account save(Account account) {
 		if (null != account) {
+			account.setPassword(passwordEncoder.encode((account.getPassword())));
 			accountRepository.save(account);
 			return account;
 		}
@@ -53,6 +58,12 @@ public class AccountServiceImpl implements AccountService {
 		else {
 			return false;
 		}	
+	}
+
+	@Override
+	public List<Account> findAll() {
+		accounts = Lists.newArrayList(accountRepository.findAll());
+		return accounts;
 	}
 
 }

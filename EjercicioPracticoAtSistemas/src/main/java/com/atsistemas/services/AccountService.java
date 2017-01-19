@@ -11,7 +11,7 @@ public interface AccountService {
 
 	public Account save(Account account);
 	
-	//public List<Account> findAll();
+	public List<Account> findAll();
 	
 	public boolean delete(Long id);
 
