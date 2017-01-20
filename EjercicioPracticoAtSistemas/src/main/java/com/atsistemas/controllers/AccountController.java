@@ -3,6 +3,7 @@ package com.atsistemas.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,13 +13,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.atsistemas.entities.Account;
+import com.atsistemas.repositories.AccountRepository;
 import com.atsistemas.services.AccountService;
 import com.atsistemas.services.MatchService;
+import com.google.common.collect.Lists;
 
 @RestController
 @RequestMapping("/accounts")
 public class AccountController {
 
+	@Autowired
+	private AccountRepository accountRepository;
+	
 	@Autowired
 	public MatchService matchService;
 	
@@ -46,7 +52,10 @@ public class AccountController {
 	@RequestMapping(method= RequestMethod.GET)
 	public ResponseEntity<Page<Account>> findAll(Pageable pageable) {
 		
+		//Page<Account> accounts = accountRepository.findAll(pageable);
+		//PageImpl<Account> accountPages = new PageImpl<Account>(Lists.newArrayList(accounts), pageable, accountRepository.count());
 		Page<Account> accounts = accountService.findAll(pageable);
+		System.out.println(accounts.getContent().toString());
 		return new ResponseEntity<Page<Account>>(accounts, HttpStatus.OK);
 		
 	}

@@ -81,7 +81,8 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
 			.passwordParameter("password").successHandler(authenticationSuccessHandler)
 			.failureHandler(authenticationFailureHandler).and().rememberMe().userDetailsService(userDetailService)
 			.rememberMeParameter("remember-me").tokenValiditySeconds(20000).and().exceptionHandling()
-			.authenticationEntryPoint(authenticationEntryPoint).and().sessionManagement().maximumSessions(3);
+			.authenticationEntryPoint(authenticationEntryPoint).and().sessionManagement().maximumSessions(2)
+			.and().sessionFixation().migrateSession();
 
 		http
 			.logout().logoutSuccessHandler(logoutSuccessHandler).logoutUrl("/logout");
@@ -90,9 +91,10 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
 
 		// In Development:
 
-//		 http
-//		 .csrf().disable()
-//		 .authorizeRequests().anyRequest().permitAll();
+		 http
+		 .csrf().disable()
+		 .authorizeRequests().anyRequest().permitAll();
+		 
 //		 .and()
 //		 .formLogin().loginPage("/login").permitAll().successHandler(authenticationSuccessHandler)
 //		 .failureHandler(authenticationFailureHandler)

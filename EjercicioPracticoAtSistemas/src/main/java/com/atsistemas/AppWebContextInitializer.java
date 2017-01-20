@@ -21,6 +21,7 @@ public class AppWebContextInitializer implements WebApplicationInitializer {
 		springContextRest.scan("com.atsistemas");
 		
 		servletContext.addListener(new ContextLoaderListener(springContextRest));
+		servletContext.getSessionCookieConfig().setMaxAge(1000);
 		
 		ServletRegistration servletRegistration = servletContext.addServlet("spring", new DispatcherServlet(springContext));
 		servletRegistration.addMapping("/");
